@@ -15,9 +15,8 @@
 #include "shared/DataValues.h"
 #include <iostream>
 
-// Let's set-up our program's main call.
-int main(int argc, char const *argv[])
-{
+// Let's set up our program's main call.
+int main(int argc, char const *argv[]) {
     // For our example, let's use this encoding. You can change it to any other encoding if you desire.
     const auto encoding = new UTF8Encoding();
 
@@ -51,8 +50,7 @@ int main(int argc, char const *argv[])
     auto read_root = Fluxion::Read("test.flx");
 
     // Compare what we read with our own data.
-    if (root->Name == read_root->Name && root->Value && read_root->Value)
-    {
+    if (root->Name == read_root->Name && root->Value && read_root->Value) {
         std::cout << "Roots are same \n";
     }
 

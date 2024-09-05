@@ -9,7 +9,7 @@
 #define FLUXIONNODE_H
 
 #include "DataValues.h"
-#define FLUXION_VERSION 1
+#define FLUXION_VERSION 2
 #include <algorithm>
 
 #include "FluxionException.h"
