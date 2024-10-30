@@ -7,22 +7,26 @@
 
 #include "DataValues.h"
 
-class AnalyzedDataContent {
+class AnalyzedDataContent
+{
 public:
-    AnalyzedDataContent() : Position(0), Value(nullptr), IsHashed(false) {
+    AnalyzedDataContent() : Position(0), Value(nullptr), IsHashed(false)
+    {
     }
 
-    explicit AnalyzedDataContent(DataValues *value): Position(0), Value(value), IsHashed(false) {
+    explicit AnalyzedDataContent(FluxionValue* value): Position(0), Value(value), IsHashed(false)
+    {
     }
 
-    AnalyzedDataContent(unsigned long position, DataValues *value, bool ıs_hashed)
+    AnalyzedDataContent(unsigned long position, FluxionValue* value, bool ıs_hashed)
         : Position(position),
           Value(value),
-          IsHashed(ıs_hashed) {
+          IsHashed(ıs_hashed)
+    {
     }
 
-    unsigned long Position = 0;
-    DataValues *Value = new NullValue;
+    mutable unsigned long Position = 0;
+    FluxionValue* Value = nullptr;
     bool IsHashed = false;
     std::string Hash;
 };

@@ -6,9 +6,11 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 project(Fluxion)
 
 add_library(Fluxion SHARED
-            src/Fluxion.cpp
-            src/FluxionNode.cpp
-            src/DataValues.cpp)
+        src/Fluxion.cpp
+        src/FluxionNode.cpp
+        src/DataValues.cpp
+        src/FluxionAttribute.cpp
+        include/shared/FluxionAttribute.h)
 
 add_library(Fluxion::library ALIAS Fluxion)
 
@@ -22,6 +24,6 @@ file(GLOB_RECURSE HEADER_FILES include/shared/*.h)
 
 install(FILES build/libFluxion.so DESTINATION lib/)
 
-foreach(HEADER_FILE ${HEADER_FILES})
+foreach (HEADER_FILE ${HEADER_FILES})
     install(FILES ${HEADER_FILE} DESTINATION include/)
-endforeach()
+endforeach ()

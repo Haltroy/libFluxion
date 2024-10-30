@@ -15,20 +15,23 @@
 #include "shared/DataValues.h"
 #include <iostream>
 
+#include "shared/FluxionAttribute.h"
+
 // Let's set up our program's main call.
-int main(int argc, char const *argv[]) {
+int main(int argc, char const* argv[])
+{
     // For our example, let's use this encoding. You can change it to any other encoding if you desire.
     const auto encoding = new UTF8Encoding();
 
     // Let's create a node that we will treat like a root node.
     // (Just like <root> on XML). And we will name it "MyRootNode".
-    auto root = new FluxionNode(nullptr, "MyRootNode", new NullValue);
+    const auto root = new FluxionNode(nullptr, "MyRootNode", nullptr);
 
     // Let's create a new node and add it to our root node.
-    auto node1 = new FluxionNode(root, "User", new StringValue("mike"));
+    const auto node1 = new FluxionNode(root, "User", "mike");
 
     // Let's add some attribute o our node.
-    auto node1_attr1 = new FluxionAttribute("Age", new IntValue(35));
+    const auto node1_attr1 = new FluxionAttribute("Age", 35);
 
     // You can use node1->Attributes.begin() to insert it to the start instead.
     // This will add it to the end of it.
@@ -38,19 +41,20 @@ int main(int argc, char const *argv[]) {
     root->Add(node1);
 
     // Let's create another user and add it to the node instead this time.
-    auto node1_1 = new FluxionNode(node1, "User", new StringValue("jeremy"));
-    auto node1_1_attr1 = new FluxionAttribute("Age", new IntValue(10));
+    const auto node1_1 = new FluxionNode(node1, "User", "jeremy");
+    const auto node1_1_attr1 = new FluxionAttribute("Age", 10);
     node1_1->Attributes.insert(node1_1->Attributes.end(), node1_1_attr1);
     node1->Add(node1_1);
 
     // Let's save it to a file.
-    Fluxion::Write(root, "test.flx", encoding);
+    Fluxion::Write(root, "test.flx", encoding, 1);
 
     // Let's read it back.
-    auto read_root = Fluxion::Read("test.flx");
+    const auto read_root = Fluxion::Read("test.flx");
 
     // Compare what we read with our own data.
-    if (root->Name == read_root->Name && root->Value && read_root->Value) {
+    if (root->Name == read_root->Name && root->Value && read_root->Value)
+    {
         std::cout << "Roots are same \n";
     }
 
