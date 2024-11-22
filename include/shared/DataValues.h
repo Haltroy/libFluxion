@@ -4,7 +4,6 @@
 
 #ifndef DATA_VALUES_H
 #define DATA_VALUES_H
-#include <ostream>
 #include <string>
 #include <utility>
 
@@ -65,6 +64,10 @@ public:
         std::vector<unsigned char> byteArrayValue;
 
         ~UnionValue()
+        {
+        }
+
+        explicit UnionValue(nullptr_t value) : boolValue(false)
         {
         }
 

@@ -10,5 +10,6 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 [Bb]uild/
+cmake-build*/
 .vscode/
 .idea/

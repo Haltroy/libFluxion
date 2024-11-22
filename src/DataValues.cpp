@@ -201,7 +201,7 @@ FluxionValue::FluxionValue(const bool value): Value(new UnionValue(value))
     Type = Bool;
 }
 
-FluxionValue::FluxionValue(nullptr_t _) : Value(new UnionValue(_))
+FluxionValue::FluxionValue(nullptr_t value) : Value(new UnionValue(value))
 {
     Type = Null;
 }
@@ -285,80 +285,64 @@ int FluxionValue::ValueTypeIndex(int version) const
                 {
                     return 0;
                 }
-                break;
             case Bool:
                 {
                     return Value.boolValue ? 1 : 2;
                 }
-                break;
             case Byte:
                 {
                     return 3;
                 }
-                break;
             case SByte:
                 {
                     return 4;
                 }
-                break;
             case Char:
                 {
                     return 5;
                 }
-                break;
             case Short:
                 {
                     return 6;
                 }
-                break;
             case UShort:
                 {
                     return 7;
                 }
-                break;
             case Int:
                 {
                     return 8;
                 }
-                break;
             case UInt:
                 {
                     return 9;
                 }
-                break;
             case Long:
                 {
                     return 10;
                 }
-                break;
             case ULong:
                 {
                     return 11;
                 }
-                break;
             case Float:
                 {
                     return 12;
                 }
-                break;
             case Double:
                 {
                     return 13;
                 }
-                break;
             case ByteArray:
                 {
                     return 14;
                 }
-                break;
             case String:
                 {
                     return 15;
                 }
-                break;
             }
         }
-        break;
     case 2:
         {
             switch (Type)
@@ -368,80 +352,64 @@ int FluxionValue::ValueTypeIndex(int version) const
                 {
                     return 0;
                 }
-                break;
             case Bool:
                 {
                     return Value.boolValue ? 1 : 2;
                 }
-                break;
             case Byte:
                 {
                     return 3;
                 }
-                break;
             case SByte:
                 {
                     return 4;
                 }
-                break;
             case Char:
                 {
                     return 5;
                 }
-                break;
             case Short:
                 {
                     return Value.shortValue == 0 ? 0 : 6;
                 }
-                break;
             case UShort:
                 {
                     return 7;
                 }
-                break;
             case Int:
                 {
                     return Value.intValue == 0 ? 1 : 8;
                 }
-                break;
             case UInt:
                 {
                     return 9;
                 }
-                break;
             case Long:
                 {
                     return Value.longValue == 0 ? 2 : 10;
                 }
-                break;
             case ULong:
                 {
                     return 11;
                 }
-                break;
             case Float:
                 {
                     return 12;
                 }
-                break;
             case Double:
                 {
                     return 13;
                 }
-                break;
             case ByteArray:
                 {
                     return 14;
                 }
-                break;
             case String:
                 {
                     return 15;
                 }
-                break;
             }
         }
-        break;
     }
 }
 
@@ -456,17 +424,14 @@ std::vector<unsigned char> FluxionValue::GetBytes(const Encoding* encoding) cons
         {
             return {};
         }
-        break;
     case Byte:
         {
             return {Value.byteValue};
         }
-        break;
     case SByte:
         {
             return {static_cast<unsigned char>(Value.sbyteValue)};
         }
-        break;
     case Char:
         {
             std::vector<unsigned char> utf16_bytes;
@@ -487,7 +452,6 @@ std::vector<unsigned char> FluxionValue::GetBytes(const Encoding* encoding) cons
 
             return utf16_bytes;
         }
-        break;
     case Short:
         {
             std::vector<unsigned char> bytes(sizeof(short));
@@ -495,16 +459,13 @@ std::vector<unsigned char> FluxionValue::GetBytes(const Encoding* encoding) cons
             bytes[1] = static_cast<unsigned char>((Value.shortValue >> 8) & 0xFF);
             return bytes;
         }
-        break;
     case UShort:
         {
             std::vector<unsigned char> bytes(sizeof(ushort));
-            // Little-endian: least significant byte first
             bytes[0] = static_cast<unsigned char>(Value.ushortValue & 0xFF);
             bytes[1] = static_cast<unsigned char>((Value.ushortValue >> 8) & 0xFF);
             return bytes;
         }
-        break;
     case Int:
         {
             std::vector<unsigned char> bytes(sizeof(int));
@@ -516,7 +477,6 @@ std::vector<unsigned char> FluxionValue::GetBytes(const Encoding* encoding) cons
             }
             return bytes;
         }
-        break;
     case UInt:
         {
             std::vector<unsigned char> bytes(sizeof(unsigned int));
@@ -528,7 +488,6 @@ std::vector<unsigned char> FluxionValue::GetBytes(const Encoding* encoding) cons
             }
             return bytes;
         }
-        break;
     case Long:
         {
             std::vector<unsigned char> bytes(sizeof(long));
@@ -540,7 +499,6 @@ std::vector<unsigned char> FluxionValue::GetBytes(const Encoding* encoding) cons
             }
             return bytes;
         }
-        break;
     case ULong:
         {
             std::vector<unsigned char> bytes(sizeof(unsigned long));
@@ -552,7 +510,6 @@ std::vector<unsigned char> FluxionValue::GetBytes(const Encoding* encoding) cons
             }
             return bytes;
         }
-        break;
     case Float:
         {
             union
@@ -569,7 +526,6 @@ std::vector<unsigned char> FluxionValue::GetBytes(const Encoding* encoding) cons
             }
             return bytes;
         }
-        break;
     case Double:
         {
             union
@@ -586,17 +542,14 @@ std::vector<unsigned char> FluxionValue::GetBytes(const Encoding* encoding) cons
             }
             return bytes;
         }
-        break;
     case ByteArray:
         {
             return Value.byteArrayValue;
         }
-        break;
     case String:
         {
             return encoding->string_to_bytes(Value.stringValue);
         }
-        break;
     }
 }
 
@@ -610,72 +563,58 @@ bool FluxionValue::IsEmpty() const
         {
             return true;
         }
-        break;
     case Byte:
         {
             return Value.byteValue == 0;
         }
-        break;
     case SByte:
         {
             return Value.sbyteValue == 0;
         }
-        break;
     case Char:
         {
             return Value.charValue == 0;
         }
-        break;
     case Short:
         {
             return Value.shortValue == 0;
         }
-        break;
     case UShort:
         {
             return Value.ushortValue == 0;
         }
-        break;
     case Int:
         {
             return Value.intValue == 0;
         }
-        break;
     case UInt:
         {
             return Value.uintValue == 0;
         }
-        break;
     case Long:
         {
             return Value.longValue == 0;
         }
-        break;
     case ULong:
         {
             return Value.ulongValue == 0;
         }
-        break;
     case Float:
         {
             return Value.floatValue == 0;
         }
-        break;
     case Double:
         {
             return Value.doubleValue == 0;
         }
-        break;
     case ByteArray:
         {
             return Value.byteArrayValue.empty();
         }
-        break;
     case String:
         {
             return Value.stringValue.empty();
         }
-        break;
     }
 }
 
@@ -689,72 +628,58 @@ bool FluxionValue::UniqueFlagSet() const
         {
             return false;
         }
-        break;
     case Byte:
         {
             return Value.byteValue == 0;
         }
-        break;
     case SByte:
         {
             return Value.sbyteValue <= 0;
         }
-        break;
     case Char:
         {
             return Value.charValue == 0;
         }
-        break;
     case Short:
         {
             return Value.shortValue <= 0;
         }
-        break;
     case UShort:
         {
             return Value.ushortValue == 0;
         }
-        break;
     case Int:
         {
             return Value.intValue <= 0;
         }
-        break;
     case UInt:
         {
             return Value.uintValue == 0;
         }
-        break;
     case Long:
         {
             return Value.longValue <= 0;
         }
-        break;
     case ULong:
         {
             return Value.ulongValue == 0;
         }
-        break;
     case Float:
         {
             return Value.floatValue == 0;
         }
-        break;
     case Double:
         {
             return Value.doubleValue == 0;
         }
-        break;
     case ByteArray:
         {
             return Value.byteArrayValue.empty();
         }
-        break;
     case String:
         {
             return Value.stringValue.empty();
         }
-        break;
     }
 }
 
@@ -768,13 +693,11 @@ int FluxionValue::EstimateSize(const Encoding* encoding) const
         {
             return 0;
         }
-        break;
     case Byte:
     case SByte:
         {
             return 1;
         }
-        break;
     case Char:
         {
             int bytes = 1;
@@ -783,7 +706,6 @@ int FluxionValue::EstimateSize(const Encoding* encoding) const
                 bytes++;
             return bytes;
         }
-        break;
     case Short:
         {
             int bytes = 1;
@@ -798,7 +720,6 @@ int FluxionValue::EstimateSize(const Encoding* encoding) const
                 bytes++;
             return bytes;
         }
-        break;
     case UShort:
         {
             int bytes = 1;
@@ -807,7 +728,6 @@ int FluxionValue::EstimateSize(const Encoding* encoding) const
                 bytes++;
             return bytes;
         }
-        break;
     case Int:
         {
             int bytes = 1;
@@ -822,7 +742,6 @@ int FluxionValue::EstimateSize(const Encoding* encoding) const
                 bytes++;
             return bytes;
         }
-        break;
     case UInt:
         {
             int bytes = 1;
@@ -831,7 +750,6 @@ int FluxionValue::EstimateSize(const Encoding* encoding) const
                 bytes++;
             return bytes;
         }
-        break;
     case Long:
         {
             int bytes = 1;
@@ -846,7 +764,6 @@ int FluxionValue::EstimateSize(const Encoding* encoding) const
                 bytes++;
             return bytes;
         }
-        break;
     case ULong:
         {
             int bytes = 1;
@@ -855,17 +772,14 @@ int FluxionValue::EstimateSize(const Encoding* encoding) const
                 bytes++;
             return bytes;
         }
-        break;
     case Float:
         {
             return 4;
         }
-        break;
     case Double:
         {
             return 8;
         }
-        break;
     case ByteArray:
         {
             int bytes = 1;
@@ -874,7 +788,6 @@ int FluxionValue::EstimateSize(const Encoding* encoding) const
                 bytes++;
             return bytes + static_cast<int>(Value.byteArrayValue.size());
         }
-        break;
     case String:
         {
             auto encoded = encoding->string_to_bytes(Value.stringValue);
@@ -885,7 +798,6 @@ int FluxionValue::EstimateSize(const Encoding* encoding) const
                 bytes++;
             return bytes + static_cast<int>(encoded.size());
         }
-        break;
     }
 }
 
@@ -1088,14 +1000,12 @@ void FluxionValue::ReadValue(std::istream& stream)
     default:
     case Null:
     case Bool:
-        {
-        }
-        break;
     case Byte:
+    case SByte:
+    case ByteArray:
+    case String:
         {
         }
-        break;
-    case SByte:
         break;
     case Char:
         {
@@ -1257,10 +1167,6 @@ void FluxionValue::ReadValue(std::istream& stream)
             Value.doubleValue = value;
         }
         break;
-    case ByteArray:
-        break;
-    case String:
-        break;
     }
 }
 
@@ -1369,67 +1275,54 @@ bool FluxionValue::operator==(const FluxionValue& other) const
         {
             return true;
         }
-        break;
     case Bool:
         {
             return Value.boolValue == other.Value.boolValue;
         }
-        break;
     case Byte:
         {
             return Value.byteValue == other.Value.byteValue;
         }
-        break;
     case SByte:
         {
             return Value.sbyteValue == other.Value.sbyteValue;
         }
-        break;
     case Char:
         {
             return Value.charValue == other.Value.charValue;
         }
-        break;
     case Short:
         {
             return Value.shortValue == other.Value.shortValue;
         }
-        break;
     case UShort:
         {
             return Value.ushortValue == other.Value.ushortValue;
         }
-        break;
     case Int:
         {
             return Value.intValue == other.Value.intValue;
         }
-        break;
     case UInt:
         {
             return Value.uintValue == other.Value.uintValue;
         }
-        break;
     case Long:
         {
             return Value.longValue == other.Value.longValue;
         }
-        break;
     case ULong:
         {
             return Value.ulongValue == other.Value.ulongValue;
         }
-        break;
     case Float:
         {
             return Value.floatValue == other.Value.floatValue;
         }
-        break;
     case Double:
         {
             return Value.doubleValue == other.Value.doubleValue;
         }
-        break;
     case ByteArray:
         {
             if (other.Value.byteArrayValue.size() != Value.byteArrayValue.size()) return false;
@@ -1440,12 +1333,10 @@ bool FluxionValue::operator==(const FluxionValue& other) const
             }
             return true;
         }
-        break;
     case String:
         {
             return Value.stringValue == other.Value.stringValue;
         }
-        break;
     }
 }
 
